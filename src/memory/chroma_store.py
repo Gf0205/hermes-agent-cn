@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import gc
 import logging
+import math
 import os
 from datetime import datetime
 from pathlib import Path
@@ -79,19 +80,33 @@ class ChromaMemoryStore:
             "AGENT_CHROMA_COLLECTION", "hermes_memory"
         )
         self._closed = False  # 防止重复关闭
+        self._degraded_in_memory = False
+        self._fallback_vectors: dict[str, list[float]] = {}
+        self._fallback_entries: dict[str, MemoryEntry] = {}
 
         Path(self._persist_dir).mkdir(parents=True, exist_ok=True)
-        self._client = chromadb.PersistentClient(path=self._persist_dir)
-        self._collection: Collection = self._client.get_or_create_collection(
-            name=self._collection_name,
-            metadata={"hnsw:space": "cosine"},
-        )
+        try:
+            self._client = chromadb.PersistentClient(path=self._persist_dir)
+            self._collection: Collection = self._client.get_or_create_collection(
+                name=self._collection_name,
+                metadata={"hnsw:space": "cosine"},
+            )
 
-        logger.info(
-            f"ChromaDB初始化 | 目录: {self._persist_dir} "
-            f"| 集合: {self._collection_name} "
-            f"| 已有记忆: {self._collection.count()} 条"
-        )
+            logger.info(
+                f"ChromaDB初始化 | 目录: {self._persist_dir} "
+                f"| 集合: {self._collection_name} "
+                f"| 已有记忆: {self._collection.count()} 条"
+            )
+        except Exception as e:
+            # Corporate/App Control policies may block chromadb rust bindings on Windows.
+            # Degrade to in-memory semantic store so the agent can still run.
+            self._degraded_in_memory = True
+            self._client = None  # type: ignore[assignment]
+            self._collection = None  # type: ignore[assignment]
+            logger.warning(
+                "ChromaDB初始化失败，降级为内存语义存储（当前进程有效，不持久化）: %s",
+                e,
+            )
 
     # ==================================================================
     # 上下文管理器协议（支持 with 语句）
@@ -170,6 +185,10 @@ class ChromaMemoryStore:
             str: 条目ID
         """
         self._check_not_closed()
+        if self._degraded_in_memory:
+            self._fallback_entries[entry.id] = entry
+            self._fallback_vectors[entry.id] = list(embedding or [])
+            return entry.id
 
         metadata = {
             "memory_type":  entry.memory_type,
@@ -196,6 +215,11 @@ class ChromaMemoryStore:
     def update_access_count(self, entry_id: str) -> None:
         """更新访问计数"""
         self._check_not_closed()
+        if self._degraded_in_memory:
+            entry = self._fallback_entries.get(entry_id)
+            if entry:
+                entry.access_count += 1
+            return
         try:
             result = self._collection.get(ids=[entry_id], include=["metadatas"])
             if result["metadatas"]:
@@ -208,6 +232,10 @@ class ChromaMemoryStore:
     def delete(self, entry_id: str) -> None:
         """删除记忆条目"""
         self._check_not_closed()
+        if self._degraded_in_memory:
+            self._fallback_entries.pop(entry_id, None)
+            self._fallback_vectors.pop(entry_id, None)
+            return
         self._collection.delete(ids=[entry_id])
 
     # ==================================================================
@@ -231,6 +259,13 @@ class ChromaMemoryStore:
          这样相似度就在0~1范围内，1表示最相似。"
         """
         self._check_not_closed()
+        if self._degraded_in_memory:
+            return self._search_fallback(
+                query_embedding=query_embedding,
+                n_results=n_results,
+                memory_type=memory_type,
+                min_importance=min_importance,
+            )
 
         total = self._collection.count()
         if total == 0:
@@ -302,6 +337,12 @@ class ChromaMemoryStore:
     ) -> list[MemoryEntry]:
         """按类型获取记忆（纯元数据过滤，不需要向量）"""
         self._check_not_closed()
+        if self._degraded_in_memory:
+            out: list[MemoryEntry] = []
+            for entry in self._fallback_entries.values():
+                if entry.memory_type == memory_type:
+                    out.append(entry)
+            return out[: max(0, limit)]
 
         results = self._collection.get(
             where={"memory_type": {"$eq": memory_type}},
@@ -328,6 +369,10 @@ class ChromaMemoryStore:
     def count(self, memory_type: Optional[str] = None) -> int:
         """统计记忆数量"""
         if self._closed or self._client is None:
+            if self._degraded_in_memory and not self._closed:
+                if memory_type:
+                    return sum(1 for e in self._fallback_entries.values() if e.memory_type == memory_type)
+                return len(self._fallback_entries)
             return 0  # 已关闭时返回0，不抛异常（方便在__del__中调用）
 
         if memory_type:
@@ -345,7 +390,40 @@ class ChromaMemoryStore:
             "persist_dir": self._persist_dir,
             "collection":  self._collection_name,
             "closed":      self._closed,
+            "degraded_in_memory": self._degraded_in_memory,
         }
+
+    def _search_fallback(
+        self,
+        query_embedding: list[float],
+        n_results: int = 5,
+        memory_type: Optional[str] = None,
+        min_importance: float = 0.0,
+    ) -> list[tuple[MemoryEntry, float]]:
+        items: list[tuple[MemoryEntry, float]] = []
+        q = list(query_embedding or [])
+
+        for entry_id, entry in self._fallback_entries.items():
+            if memory_type and entry.memory_type != memory_type:
+                continue
+            if min_importance > 0.0 and float(entry.importance) < min_importance:
+                continue
+            vec = self._fallback_vectors.get(entry_id, [])
+            sim = self._cosine_similarity(q, vec)
+            items.append((entry, sim))
+
+        items.sort(key=lambda x: x[1], reverse=True)
+        return items[: max(0, n_results)]
+
+    def _cosine_similarity(self, a: list[float], b: list[float]) -> float:
+        if not a or not b or len(a) != len(b):
+            return 0.0
+        dot = sum(x * y for x, y in zip(a, b))
+        na = math.sqrt(sum(x * x for x in a))
+        nb = math.sqrt(sum(y * y for y in b))
+        if na <= 0.0 or nb <= 0.0:
+            return 0.0
+        return max(0.0, min(1.0, dot / (na * nb)))
 
     def __del__(self) -> None:
         """析构时自动关闭（最后一道防线）"""
