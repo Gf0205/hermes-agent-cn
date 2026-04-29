@@ -1,0 +1,10 @@
+{
+  "dataset_path": "D:\\workspace_code\\hermes-agent-cn\\verify\\data_phase6_recall_cases.json",
+  "generated_at": "2026-04-28T17:45:54.349625",
+  "metrics": {
+    "recall_at_1": 1.0,
+    "recall_at_3": 1.0,
+    "mrr": 1.0,
+    "reason_coverage": 0.75
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "sessions": [
+    {
+      "id": "s301",
+      "title": "修复登录接口",
+      "messages": [
+        {
+          "role": "user",
+          "content": "auth token expiry bug"
+        }
+      ],
+      "goal": "修复登录接口并补充JWT测试",
+      "hours_ago": 48
+    },
+    {
+      "id": "s302",
+      "title": "重构缓存模块",
+      "messages": [
+        {
+          "role": "assistant",
+          "content": "cache eviction and redis timeout tuning"
+        }
+      ],
+      "goal": "优化缓存命中率并降低延迟",
+      "hours_ago": 30
+    },
+    {
+      "id": "s303",
+      "title": "数据库连接池优化",
+      "messages": [
+        {
+          "role": "assistant",
+          "content": "db pool tuning and throughput benchmark"
+        }
+      ],
+      "goal": "提升吞吐并稳定连接池",
+      "hours_ago": 18
+    },
+    {
+      "id": "s304",
+      "title": "数据库巡检日报",
+      "messages": [
+        {
+          "role": "assistant",
+          "content": "nightly db audit report"
+        }
+      ],
+      "goal": "生成巡检报告并发送告警",
+      "hours_ago": 4
+    }
+  ],
+  "queries": [
+    {
+      "query": "登录",
+      "expected_id": "s301",
+      "min_reason_token": "title-match"
+    },
+    {
+      "query": "cache timeout",
+      "expected_id": "s302",
+      "min_reason_token": "semantic"
+    },
+    {
+      "query": "连接池吞吐",
+      "expected_id": "s303",
+      "min_reason_token": "semantic"
+    },
+    {
+      "query": "巡检报告",
+      "expected_id": "s304",
+      "min_reason_token": "title-match"
+    }
+  ],
+  "thresholds": {
+    "recall_at_1_min": 0.75,
+    "recall_at_3_min": 1.0,
+    "mrr_min": 0.8,
+    "reason_coverage_min": 0.75
+  },
+  "usability_thresholds": {
+    "useful_at_1_min": 0.75,
+    "useful_at_3_min": 1.0,
+    "component_diversity_at_3_min": 0.34,
+    "stability_at_3_min": 1.0
+  }
+}

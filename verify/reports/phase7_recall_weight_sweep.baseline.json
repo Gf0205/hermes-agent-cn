@@ -1,0 +1,373 @@
+{
+  "dataset_path": "D:\\workspace_code\\hermes-agent-cn\\verify\\data_phase6_recall_cases.json",
+  "generated_at": "2026-04-28T17:51:12.127300",
+  "grid_size": 20,
+  "best": {
+    "weights": {
+      "lexical": 0.5,
+      "semantic": 0.3,
+      "recency": 0.2
+    },
+    "metrics": {
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "mrr": 1.0,
+      "reason_coverage": 0.75
+    },
+    "score": 0.975
+  },
+  "top5": [
+    {
+      "weights": {
+        "lexical": 0.5,
+        "semantic": 0.3,
+        "recency": 0.2
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.5,
+        "semantic": 0.35,
+        "recency": 0.15000000000000002
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.5,
+        "semantic": 0.4,
+        "recency": 0.09999999999999998
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.55,
+        "semantic": 0.25,
+        "recency": 0.19999999999999996
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.55,
+        "semantic": 0.3,
+        "recency": 0.14999999999999997
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    }
+  ],
+  "all": [
+    {
+      "weights": {
+        "lexical": 0.5,
+        "semantic": 0.3,
+        "recency": 0.2
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.5,
+        "semantic": 0.35,
+        "recency": 0.15000000000000002
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.5,
+        "semantic": 0.4,
+        "recency": 0.09999999999999998
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.55,
+        "semantic": 0.25,
+        "recency": 0.19999999999999996
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.55,
+        "semantic": 0.3,
+        "recency": 0.14999999999999997
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.55,
+        "semantic": 0.35,
+        "recency": 0.09999999999999998
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.55,
+        "semantic": 0.4,
+        "recency": 0.04999999999999993
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.6,
+        "semantic": 0.2,
+        "recency": 0.2
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.6,
+        "semantic": 0.25,
+        "recency": 0.15000000000000002
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.6,
+        "semantic": 0.3,
+        "recency": 0.1
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.6,
+        "semantic": 0.3,
+        "recency": 0.10000000000000003
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.6,
+        "semantic": 0.35,
+        "recency": 0.050000000000000044
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.6,
+        "semantic": 0.4,
+        "recency": 0.0
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.65,
+        "semantic": 0.2,
+        "recency": 0.14999999999999997
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.65,
+        "semantic": 0.25,
+        "recency": 0.09999999999999998
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.65,
+        "semantic": 0.3,
+        "recency": 0.04999999999999999
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.65,
+        "semantic": 0.35,
+        "recency": 0.0
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.7,
+        "semantic": 0.2,
+        "recency": 0.10000000000000003
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.7,
+        "semantic": 0.25,
+        "recency": 0.050000000000000044
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    },
+    {
+      "weights": {
+        "lexical": 0.7,
+        "semantic": 0.3,
+        "recency": 5.551115123125783e-17
+      },
+      "metrics": {
+        "recall_at_1": 1.0,
+        "recall_at_3": 1.0,
+        "mrr": 1.0,
+        "reason_coverage": 0.75
+      },
+      "score": 0.975
+    }
+  ]
+}

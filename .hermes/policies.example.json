@@ -1,0 +1,26 @@
+{
+  "rules": [
+    {
+      "name": "allow-git-readonly",
+      "command_regex": "^git (status|diff|log).*$",
+      "decision": "allow",
+      "risk": "low",
+      "reason": "允许常见只读 git 命令"
+    },
+    {
+      "name": "ask-python-in-project",
+      "command_regex": "^python .+",
+      "path_scope": ".",
+      "decision": "ask",
+      "risk": "medium",
+      "reason": "项目内执行 python 脚本需确认"
+    },
+    {
+      "name": "deny-delete-root",
+      "command_regex": "(^|\\s)rm\\s+-rf\\s+(/|~)(\\s|$)",
+      "decision": "deny",
+      "risk": "high",
+      "reason": "禁止删除根目录或用户目录"
+    }
+  ]
+}
